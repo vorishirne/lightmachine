@@ -4,12 +4,12 @@ set -ex
 
 
 clear_apt() {
-  env DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
+  apt-get autoremove -y
   apt-get clean
   find /var/lib/apt/lists -type f -delete
   find /var/cache -type f -delete
   find /var/log -type f -delete
-  exit 0
+  rm -rf /tmp/* /var/tmp/*
 }
 
 case "${1}" in

@@ -3,12 +3,10 @@
 set -ex
 
 gnome() {
-  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+  apt-get install --no-install-recommends -y \
     gnome-session \
     cheese gedit gnome-control-center gnome-system-monitor \
-    gnome-terminal gnome-tweaks nautilus \
-    \
-    locales
+    gnome-terminal gnome-tweaks nautilus
 
   true '
     locales : necessary for some apps in gnome to obtain language neutrality
@@ -20,16 +18,14 @@ gnome() {
     gnome-terminal: standard gnome terminal
     gnome-tweaks : modify gnome configuration via gui
     nautilus : file manager
-    gnome-shell-extension* : it adds control to the gnome-tweaks \
-    such as one here https://i2.wp.com/itsfoss.com/wp-content/uploads/2017/11/enableuser-themes-extension-gnome.jpeg?w=800&ssl=1
     '
 }
 
 lxde() {
-  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+  apt-get install --no-install-recommends -y \
     lxde lxlauncher lxtask
   true '
-  lxde: lxde itself
+  lxde: ligtweight x11 desktop environment
   lxlauncher : launcher that pops up pressing Windows key in lxde
   lxtask : task manager for lxde
   '
@@ -43,8 +39,12 @@ case "${1}" in
 "lxde")
   lxde
   ;;
+"node")
+  true
+  ;;
+
 *)
-  echo "$0 [gnome3 | lxde ]"
+  echo "$0 [gnome3 | lxde | node ]"
   exit 1
   ;;
 esac
