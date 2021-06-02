@@ -1,4 +1,4 @@
-#LightMachine.dockerfile
+# LightMachine.dockerfile
 Docker images for velcrine/lightmachine(an upcoming project) are baked here.  
 
 
@@ -14,7 +14,7 @@ One Dockerfile, built with --build-arg DESKTOP_ENV= gnome3 | lxde | mate | node 
         
     Node comes with a user named "node", password " " and uid 9999 out of the box.
  
-#Extending out
+# Extending out
 1. Add a shell script to be run (kind of as an entrypoint) before the desktop environment starts like this `-v /path/to/file.sh:/dockerstation/init.sh`. Now this shell script will run before the desktop environment starts.  
 
 2. Use these images as base image for extending them with your application or your configuration. See `/instance` directory for live example. 
