@@ -1,4 +1,4 @@
-#Examples for custom lightmachine
+# Examples for custom lightmachine
 
 Here we have an script setup to build applications, that extend the base desktop environment files.
 After setting up the base structure, all that needs to be done is to add one more function in `install_tool.sh` under the switch condition.
