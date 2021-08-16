@@ -3,6 +3,8 @@
 # as there are problems with systemd for cgroups v2, we have to rely on our own setup
 set -ex
 
+echo $NO_AT_BRIDGE
+
 USERNAME=${1:-velcrine}
 PASSWORD=${2:-" "}
 LM_HOSTNAME=${LM_HOSTNAME:-envoy}
@@ -17,14 +19,14 @@ mkdir -p /var/lib/sudo/lectured/$USERNAME
 service ssh start
 service docker start
 
-#yes same psycotic dream
+#yes same psychotic dream
 git add -A
 git commit -am "init"
 
 cd /home/$USERNAME;
 
 # this is the key command as it starts the actual GUI desktop environment
-sudo -u velcrine startlxde
+sudo -u velcrine startlxqt
 
 : '
 we can run it this way, giving docker-engine access, and container net capacity as envoy and zap both come to use iptables

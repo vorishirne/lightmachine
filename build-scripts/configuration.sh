@@ -34,6 +34,9 @@ URL=/usr/share/applications/lxterminal.desktop
 
 }
 
+lxqt(){
+ true
+}
 gnome() {
 
   #starting dbus; it supresses some warnings during running gnome-session
@@ -75,6 +78,9 @@ case "${1}" in
   common_config
   gnome
   editor=gedit
+  ;;
+"lxqt")
+  lxqt
   ;;
 "lxde")
   common_config

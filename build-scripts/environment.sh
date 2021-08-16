@@ -31,6 +31,12 @@ lxde() {
   '
 }
 
+lxqt(){
+  apt-get install --no-install-recommends -y \
+  featherpad lxqt-about lxqt-config lxqt-qtplugin \
+  pavucontrol-qt qlipper qterminal
+}
+
 case "${1}" in
 
 "gnome3")
@@ -38,6 +44,9 @@ case "${1}" in
   ;;
 "lxde")
   lxde
+  ;;
+"lxqt")
+  lxqt
   ;;
 "node")
   true

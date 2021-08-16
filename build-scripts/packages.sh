@@ -5,7 +5,7 @@ set -ex
 #  non-mandatory but suggested packages
 basic_utility_tools() {
   apt-get install --no-install-recommends -y \
-    procps openssl git nano ssh  curl wget gnupg-agent ca-certificates gnupg software-properties-common lsb-release
+    procps openssl git nano ssh  curl wget gnupg-agent gnupg software-properties-common lsb-release
   true '
   procps : ps command
   openssl : standard ssl library, which google copied and made into boring ssl; openssl is core of nginx, boringssl of envoy
@@ -21,7 +21,7 @@ basic_utility_tools() {
 #quite mandatory for smooth application execution
 system_tools() {
   apt-get install --no-install-recommends -y \
-    sudo locales
+    sudo locales ca-certificates 
 
   if [ $DESKTOP_ENV != "node" ]; then
     apt-get install --no-install-recommends -y \
