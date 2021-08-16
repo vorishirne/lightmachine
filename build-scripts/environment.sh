@@ -33,6 +33,7 @@ lxde() {
 
 lxqt(){
   apt-get install --no-install-recommends -y \
+  lxqt-core qtwayland5 xfwm4 \
   featherpad lxqt-about lxqt-config lxqt-qtplugin \
   pavucontrol-qt qlipper qterminal
 }
