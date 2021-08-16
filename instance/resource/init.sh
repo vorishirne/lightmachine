@@ -34,7 +34,7 @@ we can run it this way, giving docker-engine access, and container net capacity 
 docker run --rm -ti --init \
  --cap-add NET_ADMIN --cap-add NET_RAW --init\
  --ipc=host\
- -e DISPLAY="172.17.0.1:8" -e PULSE_SINK=audio_jack3 -e PULSE_SERVER=tcp:172.17.0.1:12322 \
+ -e DISPLAY="128.0.0.1:8" -e PULSE_SINK=audio_jack3 -e PULSE_SERVER=tcp:128.0.0.1:12322 \
  -v /var/run/docker.sock:/var/run/docker.sock \
  -v /shared/pkv/d:/shared/velcrine/d \
  -v /shared/pkv/l:/shared/velcrine/l \
@@ -42,7 +42,7 @@ docker run --rm -ti --init \
  -v /shared/pkv/r:/shared/velcrine/r \
  -v /shared/pkv/h/envoy:/home/ \
  --hostname envoy \
- velcrine/zap
+ velcrine/envoy
 
  Xephyr -ac -noreset -dpi 96   -resizeable   -noxv   -screen 1504x804 -keybd ephyr,,,xkbmodel=evdev :8 -listen tcp   -retro   +extension RANDR   +extension RENDER   +extension GLX   +extension XVideo   +extension DOUBLE-BUFFER   +extension SECURITY   +extension DAMAGE   +extension X-Resource   -extension XINERAMA -xinerama   -extension MIT-SHM   +extension Composite +extension COMPOSITE   -extension XTEST -tst -dpms -s off
 '
