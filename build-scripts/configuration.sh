@@ -5,22 +5,19 @@ set -ex
 lxde() {
   #bug in lxpolkit, it says "session not found for pid of lxpolkit" https://github.com/meefik/linuxdeploy/issues/978
   mv /usr/bin/lxpolkit /usr/bin/lxpolkit.bak
-
   mkdir -p /etc/skel/.config/pcmanfm/LXDE/
-  echo "
+echo "
 [*]
 wallpaper_mode=stretch
 wallpaper_common=1
 wallpaper=/dockerstation/wallpaper.jpg
 " >/etc/skel/.config/pcmanfm/LXDE/desktop-items-0.conf
 
-  mkdir -p /etc/skel/.config/
-  echo '[Added Associations]
+echo '[Added Associations]
 text/plain=mousepad.desktop;
 ' >/etc/skel/.config/mimeapps.list
 
-  mkdir -p /etc/skel/Desktop/
-  echo "
+echo "
 [Desktop Entry]
 Type=Link
 Name=LXTerminal
@@ -28,14 +25,45 @@ Icon=lxterminal
 URL=/usr/share/applications/lxterminal.desktop
 " >/etc/skel/Desktop/lxterminal.desktop
 
-  wget https://imgur.com/download/0uhHSDS/ -O /dockerstation/wallpaper.jpg
-
   echo "startlxde" >>/usr/local/bin/start
 
 }
 
 lxqt(){
- true
+  mkdir -p /etc/skel/.config/lxqt
+echo '
+[General]
+__userfile__=true
+icon_theme=Adwaita
+single_click_activate=false
+theme=ambiance
+tool_button_style=ToolButtonTextBesideIcon
+
+[Qt]
+doubleClickInterval=400
+font="Sans,11,-1,5,50,0,0,0,0,0"
+style=Fusion
+wheelScrollLines=3
+' >/etc/skel/.config/lxqt/lxqt.conf
+
+mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
+echo '
+[Desktop]
+ShowHidden=true
+Wallpaper=/dockerstation/wallpaper.jpg
+WallpaperMode=stretch
+' >/etc/skel/.config/pcmanfm-qt/lxqt/settings.conf
+
+echo '
+[quicklaunch]
+alignment=Left
+apps\\1\desktop=/usr/share/applications/pcmanfm-qt.desktop
+apps\\2\desktop=/usr/share/applications/qterminal.desktop
+apps\\3\desktop=/usr/share/applications/juffed.desktop
+apps\size=3
+type=quicklaunch
+' >> /etc/xdg/lxqt/panel.conf
+
 }
 gnome() {
 
@@ -59,6 +87,12 @@ node() {
 }
 
 common_config() {
+  mkdir -p /etc/skel/.config/
+  mkdir -p /etc/skel/Desktop/
+
+
+  wget https://imgur.com/download/0uhHSDS/ -O /dockerstation/wallpaper.jpg
+
   echo "#!/bin/sh
 #  user can provide any script here to be executed at init time
   [ -e /dockerstation/init.sh ] && bash -ex /dockerstation/init.sh" >/usr/local/bin/start
@@ -76,6 +110,7 @@ case "${1}" in
   editor=gedit
   ;;
 "lxqt")
+  common_config
   lxqt
   editor=mousepad
   ;;
