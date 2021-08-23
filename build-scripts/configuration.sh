@@ -10,7 +10,7 @@ echo "
 [*]
 wallpaper_mode=stretch
 wallpaper_common=1
-wallpaper=/dockerstation/wallpaper.jpg
+wallpaper=/dockerstation/wallpaper.png
 " >/etc/skel/.config/pcmanfm/LXDE/desktop-items-0.conf
 
 echo '[Added Associations]
@@ -50,20 +50,24 @@ mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
 echo '
 [Desktop]
 ShowHidden=true
-Wallpaper=/dockerstation/wallpaper.jpg
+Wallpaper=/dockerstation/wallpaper.png
 WallpaperMode=stretch
 ' >/etc/skel/.config/pcmanfm-qt/lxqt/settings.conf
+
+sed -i -r \
+-e 's/Name=(.*)$/Name=cmd/' \
+-e 's/GenericName=(.*)$/GenericName=/' \
+/usr/share/applications/qterminal_drop.desktop
 
 echo '
 [quicklaunch]
 alignment=Left
-apps\\1\desktop=/usr/share/applications/pcmanfm-qt.desktop
-apps\\2\desktop=/usr/share/applications/qterminal.desktop
-apps\\3\desktop=/usr/share/applications/juffed.desktop
-apps\size=3
+apps\\1\desktop=/usr/share/applications/qterminal_drop.desktop
+apps\size=1
 type=quicklaunch
 ' >> /etc/xdg/lxqt/panel.conf
 
+echo "startlxqt" >>/usr/local/bin/start
 }
 gnome() {
 
@@ -91,7 +95,8 @@ common_config() {
   mkdir -p /etc/skel/Desktop/
 
 
-  wget https://imgur.com/download/0uhHSDS/ -O /dockerstation/wallpaper.jpg
+  wget https://raw.githubusercontent.com/velcrine/lightmachine.dockerfile/master/static/wallpaper.png \
+    -O /dockerstation/wallpaper.png
 
   echo "#!/bin/sh
 #  user can provide any script here to be executed at init time
