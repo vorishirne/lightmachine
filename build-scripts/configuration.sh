@@ -10,7 +10,7 @@ echo "
 [*]
 wallpaper_mode=stretch
 wallpaper_common=1
-wallpaper=/dockerstation/wallpaper.png
+wallpaper=/dockerstation/wallpaper.jpg
 " >/etc/skel/.config/pcmanfm/LXDE/desktop-items-0.conf
 
 echo '[Added Associations]
@@ -50,7 +50,7 @@ mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
 echo '
 [Desktop]
 ShowHidden=true
-Wallpaper=/dockerstation/wallpaper.png
+Wallpaper=/dockerstation/wallpaper.jpg
 WallpaperMode=stretch
 ' >/etc/skel/.config/pcmanfm-qt/lxqt/settings.conf
 
@@ -95,8 +95,8 @@ common_config() {
   mkdir -p /etc/skel/Desktop/
 
 
-  wget https://raw.githubusercontent.com/velcrine/lightmachine.dockerfile/master/static/wallpaper.png \
-    -O /dockerstation/wallpaper.png
+  wget https://raw.githubusercontent.com/velcrine/lightmachine.dockerfile/master/static/wallpaper.jpg \
+    -O /dockerstation/wallpaper.jpg
 
   echo "#!/bin/sh
 #  user can provide any script here to be executed at init time
