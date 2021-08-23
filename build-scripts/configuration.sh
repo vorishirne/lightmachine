@@ -63,10 +63,6 @@ common_config() {
 #  user can provide any script here to be executed at init time
   [ -e /dockerstation/init.sh ] && bash -ex /dockerstation/init.sh" >/usr/local/bin/start
 
-  # many debian packages complain out locale not set
-  echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
-  locale-gen
-
   chmod a+x /usr/local/bin/start
   # haha it just works
   rm -r /dockerstation/build-scripts
@@ -81,6 +77,7 @@ case "${1}" in
   ;;
 "lxqt")
   lxqt
+  editor=mousepad
   ;;
 "lxde")
   common_config

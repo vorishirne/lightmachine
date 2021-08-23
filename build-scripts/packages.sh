@@ -21,12 +21,20 @@ basic_utility_tools() {
 #quite mandatory for smooth application execution
 system_tools() {
   apt-get install --no-install-recommends -y \
-    sudo locales ca-certificates 
+    locales
+
+#  many debian packages complain out locale not set
+#  what if i dont even touch it
+#  export LANG="en_US.UTF-8"
+#  echo "$LANG UTF-8" >> /etc/locale.gen
+#  locale-gen
+
+  apt-get install --no-install-recommends -y \
+    sudo ca-certificates apt-utils
 
   if [ $DESKTOP_ENV != "node" ]; then
     apt-get install --no-install-recommends -y \
       dbus-x11 mesa-utils mesa-utils-extra libxv1
-
   fi
 
   if [ $DESKTOP_ENV = "gnome3" ]; then

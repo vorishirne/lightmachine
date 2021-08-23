@@ -1,5 +1,5 @@
 #to build
-# docker build . -t velcrine/zap --build-arg LM_TOOL=zap --build-arg BUILD_WITH_IMAGE=velcrine/debian_lxde
+# docker build . -t velcrine/envoy --build-arg LM_TOOL=envoy --build-arg BUILD_WITH_IMAGE=velcrine/debian-lxqt
 
 #run as
 # docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock velcrine/zap

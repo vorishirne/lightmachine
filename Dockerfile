@@ -1,11 +1,13 @@
-# docker build . -t velcrine/debian_lxde --build-arg DESKTOP_ENV=lxde
+# docker buildx build . -t velcrine/debian-lxqt --build-arg DESKTOP_ENV=lxqt
 FROM debian:buster
 WORKDIR /dockerstation/build-scripts
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DESKTOP_ENV=lxde
-ENV DESKTOP_ENV=$DESKTOP_ENV LANG="en_US.UTF-8" NO_AT_BRIDGE=1
-LABEL lm_desktop=$DESKTOP_ENV
+
+ENV DESKTOP_ENV $DESKTOP_ENV
+ENV NO_AT_BRIDGE 1
+LABEL desktop=$DESKTOP_ENV
 
 
 #to have just one compressed layer, as base desktop env image is not intended to rebuild often
@@ -19,10 +21,10 @@ LABEL lm_desktop=$DESKTOP_ENV
 
 #while during experimentation, this is better
 RUN apt-get update
-ADD build-scripts/environment.sh /dockerstation/build-scripts/environment.sh
-RUN sh environment.sh $DESKTOP_ENV;
 ADD build-scripts/packages.sh /dockerstation/build-scripts/
 RUN sh packages.sh general
+ADD build-scripts/environment.sh /dockerstation/build-scripts/environment.sh
+RUN sh environment.sh $DESKTOP_ENV;
 ADD build-scripts/configuration.sh /dockerstation/build-scripts/
 RUN sh configuration.sh $DESKTOP_ENV
 
