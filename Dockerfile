@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 WORKDIR /dockerstation/build-scripts
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG DESKTOP_ENV=lxde
+ARG DESKTOP_ENV=lxqt
 
 ENV DESKTOP_ENV $DESKTOP_ENV
 ENV NO_AT_BRIDGE 1

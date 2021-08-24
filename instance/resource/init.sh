@@ -21,7 +21,7 @@ docker run --rm -ti --init \
  --hostname lxqt \
  -e USERNAME=velcrine \
  -e PASSWORD=ok \
- velcrine/debian-lxqt:latest
+ velcrine/envoy:latest
 
  Xephyr -ac -noreset -dpi 96   -resizeable   -noxv   -screen 1504x804 -keybd ephyr,,,xkbmodel=evdev :8 -listen tcp   -retro   +extension RANDR   +extension RENDER   +extension GLX   +extension XVideo   +extension DOUBLE-BUFFER   +extension SECURITY   +extension DAMAGE   +extension X-Resource   -extension XINERAMA -xinerama   -extension MIT-SHM   +extension Composite +extension COMPOSITE   -extension XTEST -tst -dpms -s off
 '

@@ -1,7 +1,7 @@
 #to build
 # docker build . -t velcrine/envoy --build-arg LM_TOOL=envoy --build-arg BUILD_WITH_IMAGE=velcrine/debian-lxqt
 
-
+ARG BUILD_WITH_IMAGE
 FROM $BUILD_WITH_IMAGE
 
 ARG DEBIAN_FRONTEND=noninteractive
