@@ -25,7 +25,7 @@ Icon=lxterminal
 URL=/usr/share/applications/lxterminal.desktop
 " >/etc/skel/Desktop/lxterminal.desktop
 
-  echo "startlxde" >>/usr/local/bin/start
+  echo "startlxde" >>/dockerstation/run-scripts/desktopenv.sh
 
 }
 
@@ -67,7 +67,7 @@ apps\size=1
 type=quicklaunch
 ' >> /etc/xdg/lxqt/panel.conf
 
-echo "startlxqt" >>/usr/local/bin/start
+echo "startlxqt" >>/dockerstation/run-scripts/desktopenv.sh
 }
 gnome() {
 
@@ -76,7 +76,7 @@ gnome() {
   mkdir -p /var/run/dbus
   dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
 
-  echo "gnome-session" >>/usr/local/bin/start
+  echo "gnome-session" >>/dockerstation/run-scripts/desktopenv.sh
 }
 
 node() {
@@ -91,20 +91,26 @@ node() {
 }
 
 common_config() {
+  mkdir /dockerstation/run-scripts
   mkdir -p /etc/skel/.config/
   mkdir -p /etc/skel/Desktop/
-
-
   wget https://raw.githubusercontent.com/velcrine/lightmachine.dockerfile/master/static/wallpaper.jpg \
     -O /dockerstation/wallpaper.jpg
 
   echo "#!/bin/sh
-#  user can provide any script here to be executed at init time
-  [ -e /dockerstation/init.sh ] && bash -ex /dockerstation/init.sh" >/usr/local/bin/start
+  set -ex
+#  user can attach his own init.sh using docker's -v flag.
+#  but strict note must be followed that it should only follow the pattern in original init.sh
+# for custom or additional setup use app-init.sh as done below
+  [ -e /dockerstation/run-scripts/init.sh ] && . /dockerstation/run-scripts/init.sh" > /dockerstation/run-scripts/entrypoint.sh
 
-  chmod a+x /usr/local/bin/start
-  # haha it just works
-  rm -r /dockerstation/build-scripts
+
+  echo "
+#  user can provide any script here to create env for target app during init time
+  [ -e /dockerstation/run-scripts/app-init.sh ] && . /dockerstation/run-scripts/app-init.sh" >> /dockerstation/run-scripts/entrypoint.sh
+
+  echo 'sudo -u ${USERNAME} sh /dockerstation/run-scripts/desktopenv.sh' >> /dockerstation/run-scripts/entrypoint.sh
+  chmod a+x /dockerstation/run-scripts/entrypoint.sh
 }
 
 case "${1}" in

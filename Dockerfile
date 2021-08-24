@@ -1,5 +1,5 @@
 # docker buildx build . -t velcrine/debian-lxqt --build-arg DESKTOP_ENV=lxqt
-FROM debian:buster
+FROM ubuntu:20.04
 WORKDIR /dockerstation/build-scripts
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -22,12 +22,17 @@ LABEL desktop=$DESKTOP_ENV
 #while during experimentation, this is better
 RUN apt-get update
 ADD build-scripts/packages.sh /dockerstation/build-scripts/
-RUN sh packages.sh general
+RUN bash -ex packages.sh general
 ADD build-scripts/environment.sh /dockerstation/build-scripts/environment.sh
-RUN sh environment.sh $DESKTOP_ENV;
+RUN bash -ex environment.sh $DESKTOP_ENV;
 ADD build-scripts/configuration.sh /dockerstation/build-scripts/
-RUN sh configuration.sh $DESKTOP_ENV
+RUN bash -ex configuration.sh $DESKTOP_ENV
 
-WORKDIR ..
+WORKDIR ../run-scripts
+ADD run-scripts/post-setup.sh /dockerstation/run-scripts/
+ARG GITSETUP=false
+RUN bash -ex post-setup.sh git $GITSETUP
 
-CMD /usr/local/bin/start
+ADD run-scripts/init.sh /dockerstation/run-scripts/
+
+ENTRYPOINT ["bash","-ex","/dockerstation/run-scripts/entrypoint.sh"]
