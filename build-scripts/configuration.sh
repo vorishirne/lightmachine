@@ -30,6 +30,7 @@ URL=/usr/share/applications/lxterminal.desktop
 }
 
 lxqt(){
+  # set theme icons and font; must for lxqt
   mkdir -p /etc/skel/.config/lxqt
 echo '
 [General]
@@ -46,6 +47,7 @@ style=Fusion
 wheelScrollLines=3
 ' >/etc/skel/.config/lxqt/lxqt.conf
 
+# set wallpaper and properties
 mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
 echo '
 [Desktop]
@@ -54,21 +56,38 @@ Wallpaper=/dockerstation/wallpaper.jpg
 WallpaperMode=stretch
 ' >/etc/skel/.config/pcmanfm-qt/lxqt/settings.conf
 
-sed -i -r \
--e 's/Name=(.*)$/Name=cmd/' \
--e 's/GenericName=(.*)$/GenericName=/' \
-/usr/share/applications/qterminal_drop.desktop
-
-echo '
+# add quicklaunch for terminal
+echo "
 [quicklaunch]
 alignment=Left
-apps\\1\desktop=/usr/share/applications/qterminal_drop.desktop
-apps\size=1
+apps\1\desktop=/usr/share/applications/qterminal_drop.desktop
+apps\2\desktop=/usr/share/applications/qlipper.desktop
+apps\size=2
 type=quicklaunch
-' >> /etc/xdg/lxqt/panel.conf
+" >  /etc/skel/.config/lxqt/panel.conf
+
+#qterminal shortcuts
+mkdir -p /etc/skel/.config/qterminal.org/
+echo '
+[General]
+AskOnExit=false
+
+[Shortcuts]
+Copy%20Selection="Ctrl+Shift+C, Ctrl+X"
+Paste%20Clipboard="Ctrl+Shift+V, Ctrl+V"
+' > /etc/skel/.config/qterminal.org/qterminal.ini
+
+echo "
+[General]
+__userfile__=true
+blackList=lxqt-panel
+placement=top-right
+server_decides=1" > /etc/skel/.config/lxqt/notifications.conf
 
 echo "startlxqt" >>/dockerstation/run-scripts/desktopenv.sh
 }
+
+
 gnome() {
 
   #starting dbus; it supresses some warnings during running gnome-session
@@ -94,8 +113,7 @@ common_config() {
   mkdir /dockerstation/run-scripts
   mkdir -p /etc/skel/.config/
   mkdir -p /etc/skel/Desktop/
-  wget https://raw.githubusercontent.com/velcrine/lightmachine.dockerfile/master/static/wallpaper.jpg \
-    -O /dockerstation/wallpaper.jpg
+  sh -c 'echo "*.log\n" >/etc/skel/.gitignore'
 
   echo "#!/bin/sh
   set -ex
@@ -123,7 +141,7 @@ case "${1}" in
 "lxqt")
   common_config
   lxqt
-  editor=mousepad
+  editor=featherpad
   ;;
 "lxde")
   common_config

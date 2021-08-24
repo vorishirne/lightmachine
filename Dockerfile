@@ -9,16 +9,6 @@ ENV DESKTOP_ENV $DESKTOP_ENV
 ENV NO_AT_BRIDGE 1
 LABEL desktop=$DESKTOP_ENV
 
-
-#to have just one compressed layer, as base desktop env image is not intended to rebuild often
-#ADD build-scripts /dockerstation/build-scripts
-#RUN apt-get update && \
-#    sh environment.sh $DESKTOP_ENV && \
-#    sh packages.sh general && \
-#    sh clear.sh apt && \
-#    sh configuration.sh $DESKTOP_ENV
-
-
 #while during experimentation, this is better
 RUN apt-get update
 ADD build-scripts/packages.sh /dockerstation/build-scripts/
@@ -34,5 +24,6 @@ ARG GITSETUP=false
 RUN bash -ex post-setup.sh git $GITSETUP
 
 ADD run-scripts/init.sh /dockerstation/run-scripts/
+ADD static/wallpaper.jpg /dockerstation/wallpaper.jpg
 
 ENTRYPOINT ["bash","-ex","/dockerstation/run-scripts/entrypoint.sh"]
