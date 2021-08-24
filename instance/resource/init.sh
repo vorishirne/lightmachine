@@ -1,32 +1,8 @@
 #!/bin/sh
-#NOTE: this is how I deal with my use-case, ur usecase will definitely be different though similar
-# as there are problems with systemd for cgroups v2, we have to rely on our own setup
-set -ex
 
 echo $NO_AT_BRIDGE
 
-USERNAME=${1:-velcrine}
-PASSWORD=${2:-" "}
-
-#this id 133 is the gid of groups on my "host" machine. change it to yours, e.g. in "getent group docker"
-groupadd -g ${HOST_DOCKER_GID:-"133"} dockerengine
-groupadd -g ${HOST_RENDER_GID:-"109"} render
-useradd -u 1000 -d /home/$USERNAME -G sudo,dockerengine,render,audio,video -m -p "$(openssl passwd -1 "$PASSWORD")" -s /bin/bash $USERNAME
-#disable lecture to user on doing sudo first time
-mkdir -p /var/lib/sudo/lectured/$USERNAME
-
-service ssh start
 service docker start
-
-#yes same psychotic dream
-git add -A
-git commit -am "init"
-
-cd /home/$USERNAME;
-
-# this is the key command as it starts the actual GUI desktop environment
-sudo -u ${USERNAME} startlxqt
-
 : '
 we can run it this way, giving docker-engine access, and container net capacity as envoy and zap both come to use iptables
 

@@ -1,6 +1,8 @@
+
+
 git_root() {
   cd /
-  sh -c 'echo "/dockerstation\n/proc/\n/sys/\n/dev\n/tmp\n/var/tmp/\n/home\n/run" >> .gitignore'
+  sh -c 'echo "/shared\n/dockerstation\n/proc/\n/sys/\n/dev\n/tmp\n/var/tmp/\n/home\n/run" >> .gitignore'
   git init
   git add -A
   git config  user.email "velcrine@gmail.com"
