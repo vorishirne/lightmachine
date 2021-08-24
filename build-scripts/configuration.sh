@@ -61,8 +61,9 @@ echo "
 [quicklaunch]
 alignment=Left
 apps\1\desktop=/usr/share/applications/qterminal_drop.desktop
-apps\2\desktop=/usr/share/applications/qlipper.desktop
-apps\size=2
+apps\2\desktop=/usr/share/applications/pcmanfm-qt.desktop
+apps\3\desktop=/usr/share/applications/juffed.desktop
+apps\size=3
 type=quicklaunch
 " >  /etc/skel/.config/lxqt/panel.conf
 
