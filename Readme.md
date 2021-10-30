@@ -1,7 +1,42 @@
-# LightMachine.dockerfile
-Docker images for velcrine/lightmachine(an upcoming project) are baked here.  
+# LightMachine
+### aka lighter virtual machine
 
+Docker containers provide isolation, for process. Well rendering UI is also a process.
+The blocker is, docker container images do not have the necessary drivers and hardware access to interact with the display device. To be specific, running an "Xorg" server is (inhumanely)impossible in docker.
 
+### Hence, to render UI from docker, like below, we have to do someting like x11(xorg server) forwarding, like in `ssh -x`
+<p>
+<img src="https://github.com/vorishirne/lightmachine/raw/master/doc/img/screenshot-mate.jpeg" alt="feed example" width="500">
+<img src="https://github.com/vorishirne/lightmachine/raw/master/doc/img/screenshot-xfce.jpeg" alt="feed example" width="500">
+</p>
+
+# Requirements
+1. Nested Xserver: Xephyr
+   1. Run with following configuration
+      1. ```shell
+         Xephyr -ac -noreset -dpi 96   -resizeable   -noxv   -screen 1504x804 -keybd ephyr,,,xkbmodel=evdev :8 -listen tcp   -retro   +extension RANDR   +extension RENDER   +extension GLX   +extension XVideo   +extension DOUBLE-BUFFER   +extension SECURITY   +extension DAMAGE   +extension X-Resource   -extension XINERAMA -xinerama   -extension MIT-SHM   +extension Composite +extension COMPOSITE   -extension XTEST -tst -dpms -s off
+         ```
+2. The lightmachine docker image,
+    1. ```shell
+        docker run --rm -ti --init \
+        --cap-add NET_ADMIN --cap-add NET_RAW --init\
+        -e DOCKERGROUP=$(getent group docker | awk -F : '{ print $3 }') \
+        -e RENDERGROUP=$(getent group render | awk -F : '{ print $3 }') \
+        --ipc=host\
+        -e DISPLAY="128.0.0.1:8" -e PULSE_SINK=audio_jack3 -e PULSE_SERVER=tcp:128.0.0.1:12322 \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v /shared/pkv/d:/shared/velcrine/d \
+        -v /shared/pkv/l:/shared/velcrine/l \
+        -v /shared/pkv/p:/shared/velcrine/p:ro \
+        -v /shared/pkv/r:/shared/velcrine/r \
+        -v /shared/pkv/h/envoy:/home/ \
+        --hostname lxqt \
+        -e USERNAME=velcrine \
+        -e PASSWORD=ok \
+        velcrine/envoy:latest
+        ```
+
+# Dockerfile-build
 One Dockerfile, built with --build-arg DESKTOP_ENV= gnome3 | lxde | mate | node will produce respective docker image. 
  
  `docker build . -t velcrine/debian_lxde --build-arg DESKTOP_ENV=lxde`
