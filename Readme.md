@@ -6,8 +6,8 @@ The blocker is, docker container images do not have the necessary drivers and ha
 
 ### Hence, to render UI from docker, like below, we have to do someting like x11(xorg server) forwarding, like in `ssh -x`
 <p>
+<img src="https://github.com/vorishirne/lightmachine/raw/master/doc/img/screenshot-lxqt.png" alt="feed example" width="500">
 <img src="https://github.com/vorishirne/lightmachine/raw/master/doc/img/screenshot-mate.png" alt="feed example" width="500">
-<img src="https://github.com/vorishirne/lightmachine/raw/master/doc/img/screenshot-xfce.png" alt="feed example" width="500">
 </p>
 
 # Requirements
